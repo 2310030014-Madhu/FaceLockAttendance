@@ -12,11 +12,5 @@
             <li><a href="{{ url_for('manage_teachers') }}">Manage Teachers</a></li>
         </ul>
     </nav>
-    <script>
-        document.addEventListener("visibilitychange", function () {
-            if (document.visibilityState === "hidden") {
-                navigator.sendBeacon("/logout");
-            }
-        });
-    </script>
+    
 </header>
