@@ -2,7 +2,8 @@ import os
 import cv2
 import numpy as np
 from flask import Flask, render_template, request, redirect, url_for, jsonify,Response,session,flash
-from pymongo import MongoClient
+from pymongo.mongo_client import MongoClient
+from pymongo.server_api import ServerApi
 from datetime import timedelta,datetime
 import base64
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -22,7 +23,8 @@ embedder = FaceNet()  # Load FaceNet model
 app.config["SESSION_PERMANENT"] = False  # Session will expire on browser close
 app.config["PERMANENT_SESSION_LIFETIME"] = timedelta(minutes=30) 
 
-client = MongoClient("mongodb://localhost:27017/")
+uri = "mongodb+srv://darrenRing:DarrenRing@123@cluster0.vpxfx.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
+client = MongoClient(uri, server_api=ServerApi('1'))
 db = client["attendance_system"]
 teachers_col = db["teachers"]
 attendance_col = db["attendance"]
