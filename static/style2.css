@@ -1,0 +1,80 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    background-color: #f4f4f4;
+}
+
+header {
+    display: flex;
+    align-items: center;  /* Aligns items vertically */
+    justify-content: center; /* Centers content horizontally */
+    padding: 1vh 2vw;
+    background-color: #005f8d;
+    height: 10vh; /* Adjust height based on your design */
+}
+
+.logo-img {
+    width: 6vw;  
+    max-width: 60px;
+    height: auto;
+    margin-right: 1vw;
+}
+
+.logo-img img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+}
+
+h1 {
+    font-size: 2.5vw;
+    color: #fff;
+    margin: 0;
+}
+
+main {
+    margin-top: 8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 80vh;
+}
+
+.dashboard-container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 90%;
+    max-width: 400px;
+}
+
+.menu {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.menu-item {
+    text-decoration: none;
+    background: #0077b6;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    transition: 0.3s;
+}
+
+.menu-item:hover {
+    background: #005f8d;
+}
+
+.logout {
+    background: #b60000;
+}
+
+.logout:hover {
+    background: #8d0000;
+}

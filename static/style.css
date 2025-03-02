@@ -1,0 +1,110 @@
+/* General Page Styling */
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #fdfdfd;
+}
+
+/* Navbar Styling */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 5%;
+    background: #005f8d;
+    color: white;
+    height: 10vh; /* Responsive height */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem; /* Space between logo and text */
+}
+
+.logo-img {
+    width: 10vw;  /* Scales with screen width */
+    max-width: 80px; /* Ensures it doesn't get too large */
+    height: auto;
+}
+
+.logo {
+    font-size: 1.5rem; /* Scales text size */
+}
+
+/* Navigation */
+nav ul {
+    list-style: none;
+    display: flex;
+    gap: 2vw;
+    margin: 0;
+    padding: 0;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem; /* Adjusted for readability */
+}
+
+/* Table Styling */
+table {
+    width: 90%; /* Adjusts to screen width */
+    max-width: 100%;
+    border-collapse: collapse;
+    margin: 2vh auto;
+}
+
+th, td {
+    padding: 1vh 2vw;
+    border: 1px solid #ddd;
+    text-align: center;
+    font-size: 1rem;
+}
+
+th {
+    background-color: #005f8d;
+    color: white;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .navbar {
+        flex-direction: column;
+        text-align: center;
+        height: auto;
+        padding: 1rem;
+    }
+
+    .logo-img {
+        width: 12vw;
+        max-width: 60px;
+    }
+
+    nav ul {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    nav ul li {
+        margin: 0.5rem 0;
+    }
+
+    table {
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
+    }
+
+    th, td {
+        font-size: 0.9rem; /* Slightly smaller for mobile */
+        padding: 0.8vh 1.5vw;
+    }
+
+    img {
+        width: 10vw;
+        height: auto;
+        max-width: 60px;
+    }
+}

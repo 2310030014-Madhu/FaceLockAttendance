@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mark Attendance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    <h1>Mark Attendance</h1>
+
+    <!-- Live Webcam Preview -->
+    <img id="video_feed" src="{{ url_for('video_feed') }}" width="640" height="480">
+
+    <br><br>
+    <!-- Button to Capture Attendance -->
+    <button onclick="markAttendance()">Mark Attendance</button>
+
+    <p id="result"></p>
+
+    <script>
+        function markAttendance() {
+            fetch('/capture_attendance', { method: 'POST' })
+                .then(response => response.text())
+                .then(data => document.getElementById('result').innerText = data)
+                .catch(error => console.error("Error:", error));
+        }
+    </script>
+</body>
+</html>

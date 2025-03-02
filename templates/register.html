@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Register Teacher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    <h1>Register Teacher</h1>
+
+    <form id="registerForm" action="/register" method="POST">
+        <label>Name:</label>
+        <input type="text" name="name" required><br>
+
+        <label>Teacher ID:</label>
+        <input type="text" name="teacher_id" required><br>
+
+        <!-- Live Webcam Preview -->
+        <video id="webcam" width="640" height="480" autoplay></video>
+        <canvas id="canvas" style="display:none;"></canvas>
+        <br>
+
+        <!-- Hidden Input to Store Captured Image -->
+        <input type="hidden" name="image_data" id="image_data">
+
+        <button type="button" onclick="captureImage()">Capture Image</button>
+        <button type="submit">Register Teacher</button>
+
+
+
+    </form>
+
+    <p id="message"></p>
+
+    <script>
+        const video = document.getElementById("webcam");
+        const canvas = document.getElementById("canvas");
+        const context = canvas.getContext("2d");
+
+        // Start webcam using JavaScript
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => video.srcObject = stream)
+            .catch(err => console.error("Error accessing webcam:", err));
+
+        function captureImage() {
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const imageData = canvas.toDataURL("image/jpeg");
+            document.getElementById("image_data").value = imageData;
+            document.getElementById("message").innerText = "Image Captured!";
+        }
+    </script>
+</body>
+</html>

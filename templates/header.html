@@ -1,0 +1,22 @@
+<header class="navbar">
+    <div class="logo-container">
+        <img src="{{ url_for('static', filename='Logo.jpeg') }}" alt="Logo" class="logo-img">
+        <div class="logo">Attendance System</div>
+    </div>
+    <nav>
+        <ul>
+            <li><a href="{{ url_for('dashboard') }}">Home</a></li>
+            <li><a href="{{ url_for('register') }}">Register</a></li>
+            <li><a href="{{ url_for('mark_attendance_page') }}">Mark Attendance</a></li>
+            <li><a href="{{ url_for('teachers') }}">View Logs</a></li>
+            <li><a href="{{ url_for('manage_teachers') }}">Manage Teachers</a></li>
+        </ul>
+    </nav>
+    <script>
+        document.addEventListener("visibilitychange", function () {
+            if (document.visibilityState === "hidden") {
+                navigator.sendBeacon("/logout");
+            }
+        });
+    </script>
+</header>

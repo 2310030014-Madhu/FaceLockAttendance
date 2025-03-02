@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style2.css') }}">
+</head>
+<body>
+
+    <header>
+    <div class="logo-img">
+        <img src="{{ url_for('static', filename='Logo.jpeg') }}" alt="School Logo">
+    </div>
+    <h1>SVM</h1>
+</header>
+
+    <main>
+        
+        <div class="dashboard-container">
+            <h2>Admin Dashboard</h2>
+            <div class="menu">
+                <a href="{{ url_for('register') }}" class="menu-item">Register Teacher</a>
+                <a href="{{ url_for('mark_attendance_page') }}" class="menu-item">Mark Attendance</a>
+                <a href="{{ url_for('teachers') }}" class="menu-item">View Attendance Logs</a>
+                <a href="{{ url_for('manage_teachers') }}" class="menu-item">Manage Teachers</a>
+                <a href="{{ url_for('logout') }}" class="menu-item logout">Logout</a>
+            </div>
+        </div>
+    </main>
+</body>
+<script>
+    document.addEventListener("visibilitychange", function () {
+        if (document.visibilityState === "hidden") {
+            navigator.sendBeacon("/logout");
+        }
+    });
+</script>
+
+
+</html>

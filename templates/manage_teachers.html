@@ -1,0 +1,34 @@
+<html>
+<head>
+    <title>Manage Teachers</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+
+{% include 'header.html' %}
+<h2 style="text-align: center;">Manage Teachers</h2>
+<table border="1">
+    <tr>
+        <th>Name</th>
+        <th>ID</th>
+        <th>Subject</th>
+        <th>Photo</th>
+        <th>Actions</th>
+    </tr>
+    {% for teacher in teachers %}
+    <tr>
+        <td>{{ teacher.name }}</td>
+        <td>{{ teacher.teacher_id }}</td>
+        <td>{{ teacher.subject }}</td>
+        <td><img src="{{ teacher.image_path }}" width="80"></td>
+        <td>
+            <a href="{{ url_for('edit_teacher', teacher_id=teacher._id) }}">Edit</a> |
+            <form action="{{ url_for('delete_teacher', teacher_id=teacher._id) }}" method="POST" style="display:inline;">
+                <button type="submit" onclick="return confirm('Are you sure?')">Delete</button>
+            </form>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+</body>
+</html>

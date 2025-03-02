@@ -1,0 +1,97 @@
+<html>
+<head>
+    <title>Edit Teacher</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 10px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        form {
+            width: 90%;
+            max-width: 400px;
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin-top: 10px;
+            font-weight: bold;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        img, video, canvas {
+            width: 100%;
+            max-width: 50%;
+            border-radius: 10%;
+            margin-top: 10%;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            margin-top: 15px;
+            background-color: #007BFF;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    
+    <h2>Edit Teacher</h2>
+    <form method="POST" enctype="multipart/form-data">
+        <label>Name:</label>
+        <input type="text" name="name" value="{{ teacher.name }}" required>
+
+        <label>ID:</label>
+        <input type="text" name="teacher_id" value="{{ teacher.teacher_id }}" required>
+
+       
+
+        <label>Take New Photo:</label>
+        <video id="video" autoplay></video>
+        <button type="button" onclick="capturePhoto()">Capture</button>
+        <canvas id="canvas" style="display:none;"></canvas>
+        <input type="hidden" name="photo_data" id="photo_data">
+
+        <button type="submit">Update</button>
+    </form>
+
+    <script>
+        let video = document.getElementById("video");
+        let canvas = document.getElementById("canvas");
+        let photoDataInput = document.getElementById("photo_data");
+
+        navigator.mediaDevices.getUserMedia({ video: true })
+            .then(stream => {
+                video.srcObject = stream;
+            })
+            .catch(err => console.error("Error accessing webcam:", err));
+
+        function capturePhoto() {
+            let context = canvas.getContext("2d");
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+            let photoData = canvas.toDataURL("image/jpeg");
+            photoDataInput.value = photoData;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Teachers & Attendance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+            table { width: 100%; border-collapse: collapse; }
+            th, td { padding: 10px; text-align: center; }
+            th:first-child, td:first-child { width: 150px; } /* Adjusts only the Photo column */
+            img { width: 100px; height: 100px; border-radius: 10px; object-fit: cover; }
+
+    </style>
+</head>
+<body>
+    {% include 'header.html' %}
+    <h1>Teachers & Attendance Logs</h1>
+
+    <!-- Filter Inputs -->
+    <label for="month">Filter by Month (YYYY-MM):</label>
+    <input type="text" id="month" placeholder="e.g., 2025-02" value="{{ selected_month }}">
+
+    <label for="teacher_id">Filter by Teacher ID:</label>
+    <input type="text" id="teacher_id" placeholder="e.g., 001">
+
+    <label for="teacher_name">Filter by Name:</label>
+    <input type="text" id="teacher_name" placeholder="e.g., John Doe">
+
+    <button onclick="applyFilters()">Filter</button>
+
+    <h3>Total Days Marked: <span id="total_days">{{attendance_count_map}}</span></h3>
+
+    <!-- Attendance Table -->
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Photo</th>
+                <th>Name</th>
+                <th>Teacher ID</th>
+                <th>Date</th>
+                <th>TIme</th>
+            </tr>
+        </thead>
+        <tbody id="attendance_table">
+            {% for record in attendance_logs %}
+            <tr>
+                <td>
+                    <img src="{{ record.photo }}" alt="Photo" style="width: 80px; height: 80px; border-radius: 10px;">
+                    
+                </td>
+                <td class="name">{{ record.name }}</td>
+                <td class="teacher_id">{{ record.teacher_id }}</td>
+                <td class="date">{{ record.date }}</td>
+                <td class="time">{{ record.timestamp }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <script>
+        function applyFilters() {
+            let month = document.getElementById("month").value.trim();
+            let teacher_id = document.getElementById("teacher_id").value.trim();
+            let teacher_name = document.getElementById("teacher_name").value.trim();
+
+            let url = "/teachers?";
+            if (month) url += `month=${month}&`;
+            if (teacher_id) url += `teacher_id=${teacher_id}&`;
+            if (teacher_name) url += `name=${teacher_name}&`;
+
+            window.location.href = url;
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Mark Attendance</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% include 'header.html' %}
+    <h1>Verify Attendance</h1>
+    <video id="video" width="640" height="480" autoplay></video>
+    <button onclick="capture()">Mark Attendance</button>
+    <p id="message"></p>
+
+    <script>
+        const video = document.getElementById('video');
+        navigator.mediaDevices.getUserMedia({ video: true }).then(stream => video.srcObject = stream);
+
+        function capture() {
+            let canvas = document.createElement('canvas');
+            canvas.width = video.videoWidth;
+            canvas.height = video.videoHeight;
+            let ctx = canvas.getContext('2d');
+            ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+            let dataURL = canvas.toDataURL('image/jpeg');
+
+            fetch('/mark_attendance', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ face_image: dataURL })
+            })
+            .then(res => res.json())
+            .then(data => document.getElementById("message").innerText = data.message || data.error);
+        }
+    </script>
+</body>
+</html>
