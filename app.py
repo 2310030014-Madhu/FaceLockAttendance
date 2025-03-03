@@ -113,35 +113,17 @@ def capture_image():
     return image_path
 
 @app.route("/mark_attendance")
-@admin_required
 def mark_attendance_page():
     return render_template("mark_attendance.html")
 
-def generate_frames():
-    camera = cv2.VideoCapture(0)
-    while True:
-        success, frame = camera.read()
-        if not success:
-            break
-        _, buffer = cv2.imencode('.jpg', frame)
-        yield (b'--frame\r\n'
-               b'Content-Type: image/jpeg\r\n\r\n' + buffer.tobytes() + b'\r\n')
-    camera.release()
-@app.route('/video_feed')
-def video_feed():
-    return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
-
-
 @app.route("/capture_attendance", methods=["POST"])
 def capture_attendance():
-    camera = cv2.VideoCapture(0)
-    success, frame = camera.read()
-    camera.release()
+    file = request.files['frame']
+    img_np = np.frombuffer(file.read(), np.uint8)
+    img = cv2.imdecode(img_np, cv2.IMREAD_COLOR)
+    img_rgb = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
 
-    if not success:
-        return "Failed to capture image."
-
-    img_rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+    # Compute Face Embedding
     captured_embedding = embedder.embeddings([img_rgb])[0]
 
     # Load all stored teacher embeddings
@@ -149,8 +131,7 @@ def capture_attendance():
     teacher_embeddings = {t["teacher_id"]: (t["name"], np.array(t["face_embedding"])) for t in teachers}
 
     # Compare embeddings using Euclidean distance
-
-    for teacher_id, (teacher_name,stored_embedding) in teacher_embeddings.items():
+    for teacher_id, (teacher_name, stored_embedding) in teacher_embeddings.items():
         distance = np.linalg.norm(stored_embedding - captured_embedding)
         if distance < 0.9:  # Threshold for match
             today_date = datetime.now().strftime("%Y-%m-%d")
@@ -165,11 +146,9 @@ def capture_attendance():
                 }},
                 upsert=True
             )
-            return f"Attendance marked for {teacher_id}"
+            return f"Attendance marked for {teacher_name}"
 
-    return "No match found.CHECK"
-
-
+    return "No match found. Please try again."
 
 @app.route("/")
 def index():
@@ -272,6 +251,8 @@ def teachers():
 @admin_required
 def home():
     return render_template("dashboard.html") 
+
+
     
 @app.route("/manage_teachers")
 @admin_required
